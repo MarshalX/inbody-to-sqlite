@@ -1,0 +1,50 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+
+# Environment files
+.env
+.env.local
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Output files
+inbody_results_*.json
+*.log
+
+# Test files
+test.db
+test_*.db
+
+# Images
+images/
+*.jpg
+*.jpeg
+*.png
+*.bmp
+*.tiff
+*.webp
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*.iml
+
+# macOS
+.DS_Store
+
+# Temporary files
+*.tmp
+*.temp
