@@ -1,9 +1,10 @@
 # InBody to SQLite
 
-A Python tool that processes InBody body composition scan images using OpenAI GPT Vision to extract structured data and store it in a local SQLite database.
+A Python tool that processes InBody body composition scan images using OpenAI GPT Vision to extract structured data and store it in a local SQLite database. **Now includes a PDF Report Generator for beautiful progress tracking!**
 
 ## Features
 
+### Core Features
 - **AI-powered text extraction**: Uses OpenAI GPT-4 Vision to analyze InBody scan images
 - **Unified data model**: Combines data from different InBody machine models into a single schema
 - **Smart caching**: Avoids reprocessing the same images using SHA-256 file hashes
@@ -12,6 +13,14 @@ A Python tool that processes InBody body composition scan images using OpenAI GP
 - **Structured output**: Uses JSON schema validation for consistent data extraction
 - **Batch processing**: Process entire folders of images at once
 - **Export functionality**: Export results to JSON for analysis
+
+### 🆕 NEW: PDF Report Generator
+- **📊 Beautiful Charts**: Generate colorful progress reports with multiple chart types
+- **📅 Time Range Filtering**: Create reports for any date range (entire history by default)
+- **🎨 Professional Design**: High-quality PDF reports with modern styling
+- **💡 Smart Insights**: Automatic analysis of your fitness progress and achievements
+- **🔧 Multiple Interfaces**: Both command-line tool and Python API
+- **📈 Comprehensive Analysis**: Weight, body composition, health metrics, and segmental analysis
 
 ## Installation
 
@@ -43,11 +52,29 @@ OPENAI_API_KEY=your-api-key-here
 
 ## Usage
 
-### Command Line Interface
+### Core Data Processing
 
 Process a folder of InBody images:
 ```bash
 python -m inbody_to_sqlite /path/to/images
+```
+
+### 🆕 PDF Report Generation
+
+Generate beautiful progress reports from your processed data:
+
+```bash
+# Generate a complete report
+uv run python -m inbody_reports
+
+# Custom report with title and filename
+uv run python -m inbody_reports --output "my_fitness_journey.pdf" --title "My Progress Report"
+
+# Report for specific date range
+uv run python -m inbody_reports --start-date 2024-01-01 --end-date 2024-12-31
+
+# Check available data
+uv run python -m inbody_reports --list-data-range
 ```
 
 Options:
@@ -69,6 +96,7 @@ python -m inbody_to_sqlite ./my_inbody_scans --export-only
 
 ### Python API
 
+#### Data Processing
 ```python
 from inbody_to_sqlite.main import InBodyProcessor
 
@@ -80,6 +108,28 @@ stats = processor.process_folder("/path/to/images")
 
 # Export results
 output_file = processor.export_results()
+```
+
+#### 🆕 Report Generation
+```python
+from inbody_reports import InBodyReportGenerator
+from datetime import datetime, timedelta
+
+# Initialize report generator
+generator = InBodyReportGenerator('inbody_results.db')
+
+# Generate complete report
+report_path = generator.generate_report(
+    output_path="progress_report.pdf",
+    title="My Fitness Journey"
+)
+
+# Generate report for specific time range
+six_months_ago = datetime.now() - timedelta(days=180)
+recent_report = generator.generate_report(
+    start_date=six_months_ago,
+    title="Recent Progress"
+)
 ```
 
 ## Supported Data Fields
@@ -145,6 +195,34 @@ The tool creates two main tables:
 The tool has been tested with multiple InBody models and handles:
 - Different languages (English, Polish, etc.)
 - Varying data layouts
+
+## PDF Report Features
+
+The new report generator creates comprehensive PDF reports with:
+
+### 📊 Chart Types
+- **Weight Progression**: Timeline with trend analysis
+- **Body Composition**: Muscle vs fat mass over time
+- **Health Metrics**: BMI, BMR, visceral fat levels
+- **Segmental Analysis**: Body part measurements
+- **Progress Dashboard**: Key metrics overview
+- **Before/After Comparison**: First vs latest scans
+
+### 🎨 Report Sections
+1. **Summary Dashboard** - Key progress indicators
+2. **Weight Progression** - Detailed weight analysis with trends
+3. **Body Composition** - Muscle and fat mass changes
+4. **Health Metrics** - BMI, BMR, visceral fat tracking
+5. **Progress Comparison** - First vs latest scan analysis
+6. **Segmental Analysis** - Body part distribution
+7. **Insights & Recommendations** - AI-generated progress insights
+
+### 📈 Sample Results
+Your reports will show insights like:
+- 📉 Weight decreased by 17.6kg over 773 days
+- 💪 Body fat decreased by 14.0% - Great progress!
+- ✅ Current BMI is in the healthy range
+- 👍 Good tracking consistency - 19 scans over 773 days
 - Different measurement units (automatically normalized)
 - Missing fields in different models
 

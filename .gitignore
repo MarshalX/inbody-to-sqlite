@@ -21,6 +21,7 @@ wheels/
 # Output files
 inbody_results_*.json
 *.log
+*.pdf
 
 # Test files
 test.db
